@@ -1,0 +1,39 @@
+{% macro field(input, placeholder='', extra_class='') %}
+  <div class="field-group">
+    {{ input.label(class_='form-label') }}
+    {{ input(class_='form-control ' ~ extra_class ~ (' is-invalid' if input.errors else ''), placeholder=placeholder, **kwargs) }}
+    {% for error in input.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+  </div>
+{% endmacro %}
+{% macro score(analysis) %}
+  <span class="score-pill {{ analysis.score_color }}"><span class="status-dot"></span>{{ analysis.match_score|round(0)|int }}%</span>
+{% endmacro %}
+{% macro stat(icon, label, value, note='', color='violet') %}
+  <div class="stat-card">
+    <div class="stat-top"><span class="stat-label">{{ label }}</span><span class="icon-tile {{ color }}"><i class="bi bi-{{ icon }}"></i></span></div>
+    <div class="stat-value">{{ value }}</div>
+    <div class="stat-note">{{ note }}</div>
+  </div>
+{% endmacro %}
+{% macro analysis_table(items, admin=false, delete=false) %}
+  <div class="table-responsive"><table class="table app-table align-middle"><thead><tr><th>Role & company</th>{% if admin %}<th>User</th>{% endif %}<th>Analyzed <span class="tiny">UTC</span></th><th>Match score</th><th>Keywords</th><th class="text-end">Actions</th></tr></thead><tbody>
+    {% for item in items %}<tr><td><a class="table-title"
+   href="{{ url_for('main.result', analysis_id=item.id) }}">{{ item.job_title }}</a><span class="table-subtitle">{{ item.company_name or 'Company not specified' }}</span></td>{% if admin %}<td><a href="{{ url_for('admin.user_detail', user_id=item.user_id) }}">{{ item.user.username }}</a></td>{% endif %}<td class="muted">{{ item.created_at.strftime("%b %d, %Y") }}</td><td>{{ score(item) }}</td><td><span class="matched-text">{{ item.matched_keywords|length }} matched</span><span class="table-subtitle">{{ item.missing_keywords|length }} missing</span></td><td><div class="table-actions"><a href="{{ url_for('main.result', analysis_id=item.id) }}"
+   class="btn btn-sm btn-light"
+   aria-label="View {{ item.job_title }} analysis"><i class="bi bi-arrow-up-right"></i><span class="d-none d-xl-inline">View</span></a>{% if delete %}<form method="post"
+      action="{{ url_for('admin.delete_analysis' if admin else 'main.delete_analysis', analysis_id=item.id) }}"
+      data-confirm="Delete this analysis and its stored text? This cannot be undone."><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="icon-button danger"
+        aria-label="Delete {{ item.job_title }} analysis"><i class="bi bi-trash3"></i></button></form>{% endif %}</div></td></tr>
+  {% else %}<tr><td colspan="{{ 6 if admin else 5 }}"><div class="empty-state"><i class="bi bi-file-earmark-text"></i><h3>No analyses found</h3><p>Try a different search or start a new comparison.</p><a class="btn btn-primary" href="{{ url_for('main.analyze') }}">Analyze a resume <i class="bi bi-arrow-right"></i></a></div></td></tr>{% endfor %}
+  </tbody>
+  </table>
+</div>
+{% endmacro %}
+{% macro pagination_nav(pagination, endpoint, params={}) %}
+  {% if pagination.pages > 1 %}<nav class="pagination-row" aria-label="Pagination"><span class="muted small">Page {{ pagination.page }} of {{ pagination.pages }} · {{ pagination.total }} records</span><div class="d-flex gap-2">{% if pagination.has_prev %}<a class="btn btn-sm btn-light"
+   href="{{ url_for(endpoint, page=pagination.prev_num, **params) }}">← Previous</a>{% endif %}{% if pagination.has_next %}<a class="btn btn-sm btn-light"
+   href="{{ url_for(endpoint, page=pagination.next_num, **params) }}">Next →</a>{% endif %}</div></nav>{% endif %}
+{% endmacro %}
+{% macro skills(categories, empty='No recognized skills detected.') %}
+  {% for category, names in categories.items() %}<div class="skill-group"><h4>{{ category }}</h4><div class="badge-list">{% for name in names %}<span class="keyword-badge neutral">{{ name }}</span>{% endfor %}</div></div>{% else %}<p class="muted">{{ empty }}</p>{% endfor %}
+{% endmacro %}

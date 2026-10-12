@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% from 'macros.html' import field %}
+{% block title %}Analyze your resume{% endblock %}
+{% block content %}
+  <div class="container page-container">
+    <div class="page-heading">
+      <div>
+        <span class="eyebrow">FIND YOUR ALIGNMENT</span>
+        <h1>A clearer picture of your next role.</h1>
+        <p>Bring your resume and a job description. We'll connect the dots.</p>
+      </div>
+      <a class="btn btn-light"
+         href="{{ url_for('main.history') }}"><i class="bi bi-clock-history"></i> Analysis history</a>
+    </div>
+    <div class="analyzer-layout">
+      <form class="analyzer-form"
+            method="post"
+            enctype="multipart/form-data"
+            data-loading="Analyzing your resume…"
+            id="analyze-form">
+        {{ form.hidden_tag() }}
+        <section class="panel p-4"><div class="form-section-title"><span class="step-mini">01</span><div><h2>Start with your resume</h2><p>Choose the version you'd send for this role.</p></div></div><label class="upload-zone" id="upload-zone" for="resume"><span class="upload-icon"><i class="bi bi-cloud-arrow-up"></i></span><strong id="upload-title">Drop your resume here, or <span>browse files</span></strong><span id="upload-detail">PDF, DOCX, or TXT · Up to 5 MB</span>{{ form.resume(class_='upload-input', accept='.pdf,.docx,.txt', required=true) }}<span class="upload-selected" id="upload-selected" aria-live="polite"></span></label>{% for error in form.resume.errors %}<p class="text-danger small mt-2">{{ error }}</p>{% endfor %}<div class="privacy-note"><i class="bi bi-shield-lock"></i><span>We extract the text, then discard the original file. Your analysis is saved privately to your account.</span></div></section>
+        <section class="panel p-4 mt-4">
+          <div class="form-section-title">
+            <span class="step-mini">02</span>
+            <div>
+              <h2>Add the opportunity</h2>
+              <p>The complete description gives you a more useful comparison.</p>
+            </div>
+          </div>
+          <div class="row g-3">
+            <div class="col-sm-6">{{ field(form.job_title, 'e.g. Python Developer') }}</div>
+            <div class="col-sm-6">{{ field(form.company_name, 'e.g. TechNova') }}</div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="tiny muted">Job title and company are optional.</span><button class="btn btn-text btn-sm sample-button"
+        id="load-sample"
+        type="button"><i class="bi bi-magic"></i> Try a sample job</button>
+          </div>
+          {{ field(form.job_description, 'Paste the responsibilities, qualifications, and skills for the role here…', rows=9, required=true, minlength=20, maxlength=20000) }}
+          <div class="d-flex justify-content-between tiny muted"><span>20–20,000 characters · English text works best</span><span id="character-count">0 / 20,000</span></div>
+        </section>
+        <div class="analyze-submit">
+          <p><i class="bi bi-info-circle"></i> A match score is a guide, not a hiring prediction.</p>
+          <button class="btn btn-primary btn-lg"
+                  type="submit"><i class="bi bi-stars"></i> Analyze resume <i class="bi bi-arrow-right"></i></button>
+        </div>
+        <div class="loading-notice" id="analysis-loading" role="status" hidden><span class="spinner-border spinner-border-sm"></span> Extracting text, comparing keywords, and preparing your insights…</div>
+      </form>
+      <aside class="analyzer-aside">
+        <section class="aside-card">
+          <span class="eyebrow">WHAT YOU'LL DISCOVER</span>
+          <h3>
+            Insight you can
+            <br>
+            put to work.
+          </h3>
+          <ul class="analyzer-benefits">
+            <li>
+              <span class="icon-tile violet"><i class="bi bi-bullseye"></i></span>
+              <div><strong>Your overall match</strong><small>A transparent, weighted score</small></div>
+            </li>
+            <li>
+              <span class="icon-tile mint"><i class="bi bi-check2-square"></i></span>
+              <div><strong>Strengths & keyword gaps</strong><small>See where your language aligns</small></div>
+            </li>
+            <li>
+              <span class="icon-tile blue"><i class="bi bi-lightbulb"></i></span>
+              <div><strong>Focused recommendations</strong><small>Practical next steps for your resume</small></div>
+            </li>
+            <li>
+              <span class="icon-tile peach"><i class="bi bi-bar-chart"></i></span>
+              <div><strong>Skills & frequency charts</strong><small>A closer look at your content</small></div>
+            </li>
+          </ul>
+        </section>
+        <section class="aside-tip">
+          <i class="bi bi-lightbulb"></i>
+          <h4>A useful starting point</h4>
+          <p>Include the full job description, not just the title. Responsibilities often reveal important terms that a skills list misses.</p>
+        </section>
+        <section class="aside-help">
+          <h4>Just exploring?</h4>
+          <p>Use our fictional sample resume and a sample job to try the complete workflow.</p>
+          <a href="{{ url_for('static', filename='samples/sample_resume.txt') }}"
+             download="sample_resume.txt"
+             class="text-link small">Download sample resume <i class="bi bi-download"></i></a>
+        </section>
+      </aside>
+    </div>
+  </div>
+{% endblock %}

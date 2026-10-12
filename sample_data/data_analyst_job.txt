@@ -1,0 +1,14 @@
+Data Analyst — InsightWorks (fictional company)
+
+Turn business datasets into clear insights. Use SQL to query databases, Python
+and Pandas for data analysis, and Excel for reporting. Create dashboards with
+Power BI and Tableau, validate data quality, and communicate findings to
+stakeholders.
+
+Responsibilities include reporting, dashboard design, statistical analysis,
+data cleaning, trend exploration, and documentation. Work with ETL pipelines,
+PostgreSQL databases, and Git. Explain business performance using meaningful
+metrics and readable visualizations.
+
+Skills: SQL, Python, Pandas, Excel, Data Analysis, Power BI, Tableau, Statistics,
+ETL, PostgreSQL, and Git.

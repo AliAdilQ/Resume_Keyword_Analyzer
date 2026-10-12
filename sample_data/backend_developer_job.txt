@@ -1,0 +1,13 @@
+Backend Developer — CloudStack Solutions (fictional company)
+
+Design and maintain scalable Python backend services using FastAPI and
+PostgreSQL. Build REST APIs, optimize SQL queries, and write automated testing.
+Package services with Docker and deploy on AWS using Linux. Use Git and GitHub
+for collaborative development and CI/CD for reliable delivery.
+
+Focus on readable code, authentication, request validation, documentation,
+performance, database design, and service reliability. Collaborate with
+frontend developers to integrate APIs and troubleshoot application behavior.
+
+Skills: Python, FastAPI, PostgreSQL, SQL, REST API, Testing, Docker, AWS, Linux,
+Git, GitHub, and CI/CD. Kubernetes experience is a plus.

@@ -1,0 +1,6 @@
+<nav class="admin-tabs" aria-label="Admin navigation">
+  <a class="{{ 'active' if request.endpoint == 'admin.dashboard' }}"
+     href="{{ url_for('admin.dashboard') }}"><i class="bi bi-grid-1x2"></i> Overview</a><a class="{{ 'active' if request.endpoint in ['admin.users', 'admin.user_detail'] }}"
+   href="{{ url_for('admin.users') }}"><i class="bi bi-people"></i> Users</a><a class="{{ 'active' if request.endpoint == 'admin.analyses' }}"
+   href="{{ url_for('admin.analyses') }}"><i class="bi bi-file-earmark-bar-graph"></i> Analyses</a><span><i class="bi bi-shield-lock"></i> Administrator workspace</span>
+</nav>

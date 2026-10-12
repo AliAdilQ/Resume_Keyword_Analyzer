@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% from 'macros.html' import skills, stat %}
+{% block title %}{{ analysis.job_title }} · Analysis{% endblock %}
+{% block content %}
+  <div class="container page-container">
+    <a class="back-link"
+       href="{{ url_for('admin.analyses' if current_user.is_admin and analysis.user_id != current_user.id else 'main.history') }}"><i class="bi bi-arrow-left"></i> Back to analyses</a>
+    <div class="page-heading result-heading">
+      <div>
+        <span class="eyebrow">YOUR RESUME, IN FOCUS</span>
+        <h1>{{ analysis.job_title }}</h1>
+        <p>{{ analysis.company_name or 'Company not specified' }} <span class="metadata-dot">·</span> {{ analysis.created_at.strftime("%b %d, %Y at %H:%M") }} UTC <span class="metadata-dot">·</span> {{ analysis.original_filename }}</p>
+      </div>
+      <a href="{{ url_for('main.download', analysis_id=analysis.id) }}"
+         class="btn btn-light"><i class="bi bi-download"></i> Download report</a>
+    </div>
+    <section class="result-summary"><div class="result-score"><div class="score-ring {{ analysis.score_color }}"
+     style="--score: {{ analysis.match_score }}"><div><strong>{{ analysis.match_score|round(0)|int }}<span>%</span></strong><small>OVERALL MATCH</small></div></div><div><span class="result-state {{ analysis.score_color }}"><span class="status-dot"></span>{{ analysis.score_state }}</span><h2>{% if analysis.match_score >= 70 %}A strong foundation.<br>Room to stand out.{% elif analysis.match_score >= 50 %}Your next step?<br>Close the keyword gaps.{% else %}Make your relevant<br>experience more visible.{% endif %}</h2><p>{{ analysis.matched_keywords|length }} of {{ analysis.job_keywords|length }} job keywords found in your resume.<br>Focus on the gaps that reflect your real experience.</p></div></div><div class="score-breakdown"><span class="eyebrow">HOW YOUR SCORE ADDS UP</span>{% for label, value, weight in [('Keyword coverage', report.keyword_score, report.weights.keywords), ('TF-IDF similarity', report.similarity_score, report.weights.similarity), ('Skill overlap', report.skills_score, report.weights.skills)] %}<div class="breakdown-item"><div><span>{{ label }} <small>{{ weight }}% weight</small></span><strong>{{ (value|string ~ '%') if value is not none else 'N/A' }}</strong></div><div class="progress"
+     role="progressbar"
+     aria-label="{{ label }}"
+     aria-valuenow="{{ value or 0 }}"
+     aria-valuemin="0"
+     aria-valuemax="100"><div class="progress-bar" style="width: {{ value or 0 }}%"></div></div></div>{% endfor %}<p class="tiny muted mb-0">Lexical comparison · Algorithm {{ report.algorithm_version }} · <a href="{{ url_for('main.about') }}">Methodology</a></p></div></section>
+    <div class="stats-grid four compact mt-4">{{ stat('file-earmark-text','Resume words',report.statistics.word_count,'Extracted from your document') }}{{ stat('tags','Unique keywords',report.statistics.unique_keywords,'Skills and dynamic terms','blue') }}{{ stat('code-square','Detected skills',report.statistics.detected_skills,'From our technical dictionary','mint') }}{{ stat('pie-chart','Keyword density',report.statistics.keyword_density|string ~ '%','Keyword tokens / resume words','peach') }}</div>
+    <div class="row g-4 mt-0"><div class="col-lg-6"><section class="panel keyword-panel"><div class="panel-heading"><h2><i class="bi bi-check-circle matched-text"></i> Matched keywords</h2><span class="count-badge matched">{{ analysis.matched_keywords|length }}</span></div><div class="badge-list p-4 pt-0">{% for keyword in analysis.matched_keywords %}<span class="keyword-badge matched"><i class="bi bi-check2"></i> {{ keyword }}</span>{% else %}<p class="muted">No job keywords matched yet.</p>{% endfor %}</div></section></div><div class="col-lg-6"><section class="panel keyword-panel"><div class="panel-heading"><h2><i class="bi bi-plus-circle missing-text"></i> Missing keywords</h2><span class="count-badge missing">{{ analysis.missing_keywords|length }}</span></div><div class="badge-list p-4 pt-0">{% for keyword in analysis.missing_keywords %}<span class="keyword-badge missing"><i class="bi bi-plus"></i> {{ keyword }}</span>{% else %}<p class="matched-text">All extracted job keywords are present.</p>{% endfor %}</div><p class="tiny muted px-4 pb-3 mb-0">Add these only if they accurately describe your experience.</p></section></div></div>
+    <div class="result-charts">
+      <section class="panel chart-panel">
+        <div class="panel-heading">
+          <h2>Keyword coverage</h2>
+          <i class="bi bi-pie-chart muted"></i>
+        </div>
+        <div class="chart-wrap donut-chart">
+          <canvas id="keyword-donut"
+                  aria-label="{{ analysis.matched_keywords|length }} matched and {{ analysis.missing_keywords|length }} missing keywords"
+                  role="img"></canvas>
+        </div>
+      </section>
+      <section class="panel chart-panel">
+        <div class="panel-heading">
+          <h2>Top resume keywords</h2>
+          <span class="tiny muted">OCCURRENCES</span>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="keyword-frequency"
+                  aria-label="Keyword frequency in resume"
+                  role="img"></canvas>
+        </div>
+      </section>
+    </div>
+    <section class="panel chart-panel mt-4"><div class="panel-heading"><div><span class="eyebrow">SIDE BY SIDE</span><h2>Resume vs. job description</h2></div><span class="tiny muted">Top {{ report.comparison.labels|length }} job terms · Occurrences</span></div><div class="chart-wrap comparison-chart"><canvas id="keyword-comparison"
+        aria-label="Comparison of keyword frequency in resume and job description"
+        role="img"></canvas></div><details class="chart-text-data"><summary>View chart data as a table</summary><div class="table-responsive"><table class="table app-table"><thead><tr><th>Keyword</th><th>Resume</th><th>Job description</th></tr></thead><tbody>{% for keyword in report.comparison.labels %}<tr><td>{{ keyword }}</td><td>{{ report.comparison.resume[loop.index0] }}</td><td>{{ report.comparison.job[loop.index0] }}</td></tr>{% endfor %}</tbody></table></div><p class="tiny muted px-4">Top resume frequencies: {% for keyword in report.top_frequency.labels %}{{ keyword }}: {{ report.top_frequency['values'][loop.index0] }}{% if not loop.last %}, {% endif %}{% endfor %}</p></details></section>
+    <div class="row g-4 mt-0">
+      <div class="col-lg-6">
+        <section class="panel p-4 h-100">
+          <div class="section-mini-title">
+            <span class="icon-tile violet"><i class="bi bi-person-badge"></i></span>
+            <h2>Your resume skills</h2>
+          </div>
+          {{ skills(report.resume_skills) }}
+        </section>
+      </div>
+      <div class="col-lg-6">
+        <section class="panel p-4 h-100">
+          <div class="section-mini-title">
+            <span class="icon-tile blue"><i class="bi bi-briefcase"></i></span>
+            <h2>Skills mentioned in the job</h2>
+          </div>
+          {{ skills(report.job_skills) }}
+          <div class="small muted mt-3"><strong class="matched-text">{{ report.matched_skills|length }} matched</strong> · {{ report.missing_skills|length }} missing</div>
+        </section>
+      </div>
+    </div>
+    <section class="panel recommendations-panel mt-4"><div class="panel-heading"><div><span class="eyebrow">MAKE YOUR NEXT EDIT COUNT</span><h2>Your improvement plan</h2></div><span class="icon-tile peach"><i class="bi bi-lightbulb"></i></span></div><div class="recommendations-list">{% for recommendation in report.recommendations %}<article><span class="recommendation-number">{{ '%02d'|format(loop.index) }}</span><div><h3>{{ recommendation.title }}</h3><p>{{ recommendation.text }}</p></div><i class="bi bi-arrow-up-right"></i></article>{% endfor %}</div></section>
+    <details class="panel source-details mt-4"><summary><i class="bi bi-file-earmark-text"></i> View analyzed source text <span class="tiny muted">PRIVATE RECORD</span></summary><div class="row g-4 p-4"><div class="col-md-6"><h3>Resume text</h3><pre>{{ analysis.resume_text }}</pre></div><div class="col-md-6"><h3>Job description</h3><pre>{{ analysis.job_description }}</pre></div><div class="col-md-6"><h3>Extracted resume keywords</h3><div class="badge-list">{% for keyword in analysis.resume_keywords %}<span class="keyword-badge neutral">{{ keyword }}</span>{% endfor %}</div></div><div class="col-md-6"><h3>Extracted job keywords</h3><div class="badge-list">{% for keyword in analysis.job_keywords %}<span class="keyword-badge neutral">{{ keyword }}</span>{% endfor %}</div></div></div></details><div class="result-bottom"><p><i class="bi bi-shield-check"></i> Original uploads are discarded. Your analysis is saved in your private history.</p><a class="btn btn-primary" href="{{ url_for('main.analyze') }}">Start another analysis <i class="bi bi-arrow-right"></i></a></div>
+  </div>
+  <script type="application/json" id="result-data">{{ report|tojson }}</script>
+{% endblock %}

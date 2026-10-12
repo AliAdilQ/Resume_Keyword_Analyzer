@@ -1,0 +1,4 @@
+{% extends "base.html" %}
+{% block title %}Check your request{% endblock %}
+{% block content %}<div class="container error-page"><span class="icon-tile peach"><i class="bi bi-exclamation-circle"></i></span><span class="eyebrow">LET'S TRY THAT AGAIN</span><h1>A small adjustment is needed.</h1><p>{{ message }}</p><a class="btn btn-primary"
+   href="{{ url_for('main.analyze') if current_user.is_authenticated else url_for('auth.login') }}">Try again <i class="bi bi-arrow-right"></i></a></div>{% endblock %}

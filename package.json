@@ -1,0 +1,12 @@
+{
+  "name": "resume-keyword-analyzer-browser-checks",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Optional browser verification and genuine screenshots for the Flask application",
+  "scripts": {
+    "screenshots": "node scripts/capture_screenshots.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

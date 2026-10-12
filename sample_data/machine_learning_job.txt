@@ -1,0 +1,14 @@
+Machine Learning Engineer — DataVision Labs (fictional company)
+
+Build and evaluate machine learning models for prediction and classification.
+Develop Python pipelines for data preprocessing, feature engineering, and model
+evaluation. Use Pandas and NumPy to transform datasets, Scikit-learn for
+experiments, and PyTorch for deep learning.
+
+Collaborate on data science projects, document experiments, validate statistics,
+and monitor model performance. Use Git for reproducible development. Package
+prediction services with Docker and deploy on AWS. Familiarity with NLP and
+TensorFlow is useful for future projects.
+
+Skills: Python, Machine Learning, Deep Learning, Pandas, NumPy, Scikit-learn,
+PyTorch, Statistics, Git, Docker, AWS, NLP, and TensorFlow.

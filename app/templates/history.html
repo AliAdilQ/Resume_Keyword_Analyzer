@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% from 'macros.html' import analysis_table, pagination_nav %}
+{% block title %}Analysis history{% endblock %}
+{% block content %}<div class="container page-container"><div class="page-heading"><div><span class="eyebrow">EVERY OPPORTUNITY, IN ONE PLACE</span><h1>Your analysis history<span class="heading-dot">.</span></h1><p>Revisit your insights, compare your applications, and keep moving forward.</p></div><a class="btn btn-primary" href="{{ url_for('main.analyze') }}"><i class="bi bi-plus-lg"></i> New analysis</a></div><section class="panel"><div class="panel-heading"><div><h2>Saved analyses</h2><span class="small muted">{{ pagination.total }} {{ 'result' if pagination.total == 1 else 'results' }}</span></div><form class="search-form" method="get"><label class="visually-hidden" for="history-search">Search job title or company</label><div class="input-icon"><i class="bi bi-search"></i><input id="history-search"
+       class="form-control"
+       type="search"
+       name="q"
+       value="{{ search }}"
+       placeholder="Search role or company…"></div><button class="btn btn-light">Search</button>{% if search %}<a class="btn btn-text" href="{{ url_for('main.history') }}">Clear</a>{% endif %}</form></div>{{ analysis_table(pagination.items, delete=true) }}{{ pagination_nav(pagination, 'main.history', {'q':search}) }}</section><p class="page-footnote"><i class="bi bi-shield-lock"></i> Deleting an analysis permanently removes its stored resume text, job description, and results.</p></div>{% endblock %}

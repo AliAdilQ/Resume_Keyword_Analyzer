@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block body_class %}auth-body{% endblock %}
+{% block content %}
+  <div class="container auth-container"><div class="auth-grid"><aside class="auth-story"><span class="eyebrow light">A BETTER MATCH STARTS HERE</span><h1>Your next role.<br>Your strongest<br><span>first impression.</span></h1><p>See your experience through the lens of your next opportunity.</p><div class="auth-benefits"><div><i class="bi bi-bullseye"></i><span>Understand your resume's alignment</span></div><div><i class="bi bi-lightbulb"></i><span>Turn keyword gaps into focused edits</span></div><div><i class="bi bi-clock-history"></i><span>Keep every application in perspective</span></div></div><div class="auth-story-bottom"><i class="bi bi-shield-check"></i> Your uploaded files are never stored.</div></aside><section class="auth-form-panel">{% block auth_content %}{% endblock %}</section></div></div>
+{% endblock %}

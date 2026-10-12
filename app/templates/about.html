@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}About & methodology{% endblock %}
+{% block content %}
+  <div class="container page-container about-container">
+    <div class="page-heading">
+      <div>
+        <span class="eyebrow">A LITTLE CLARITY GOES A LONG WAY</span>
+        <h1>Built to make your experience visible.</h1>
+        <p>
+          Resume Keyword Analyzer is an open-source project by AliAdilQ.
+          <br>
+          It helps you compare the language in your resume with the role you're pursuing.
+        </p>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <section class="panel p-4 p-md-5">
+          <span class="icon-tile violet mb-3"><i class="bi bi-diagram-3"></i></span>
+          <h2>How the analysis works</h2>
+          <ol class="method-list">
+            <li><strong>Extract the text.</strong> pypdf reads text-based PDFs, python-docx reads paragraphs and tables, and TXT files are decoded as UTF-8. Scanned PDFs require OCR outside this app.</li>
+            <li><strong>Normalize the language.</strong> NLTK tokenization, spaCy stopwords, and lookup lemmatization clean English text. Technical names and multiword skills are protected.</li>
+            <li><strong>Find the important terms.</strong> A categorized skill dictionary detects technologies. Single-document TF-IDF ranks additional terms, including recurring bigrams, for each document.</li>
+            <li><strong>Compare the documents.</strong> Weighted job-keyword coverage, pair-fitted unigram/bigram TF-IDF cosine similarity, and known skill overlap produce the report.</li>
+            <li><strong>Offer practical suggestions.</strong> Rules surface gaps, missing skills sections, short resumes, and opportunities to describe measurable impact.</li>
+          </ol>
+        </section>
+        <section class="panel p-4 mt-4">
+          <h2>Use the score thoughtfully</h2>
+          <p>Text similarity reflects shared wording. It does not understand your full experience, assess your qualifications, or predict a hiring decision. It is not a certified ATS score, an LLM, or an embedding-based semantic matcher.</p>
+          <p class="mb-0">Add keywords only when they accurately describe your experience. A clear, credible resume matters more than maximizing a number.</p>
+        </section>
+      </div>
+      <div class="col-lg-4">
+        <section class="panel p-4">
+          <span class="eyebrow">THE SCORING FORMULA</span>
+          <h3 class="mt-3">Transparent by default</h3>
+          <div class="formula-item">
+            <strong>50%</strong>
+            <div>Keyword coverage<small>Technical skills count twice. Repeated job terms receive a capped boost.</small></div>
+          </div>
+          <div class="formula-item">
+            <strong>30%</strong>
+            <div>TF-IDF similarity<small>Cosine similarity measures overlap in weighted words and phrases.</small></div>
+          </div>
+          <div class="formula-item">
+            <strong>20%</strong>
+            <div>Skill overlap<small>Fraction of recognized job skills present in the resume.</small></div>
+          </div>
+          <p class="small muted mt-3 mb-0">If the job contains no recognized skills, keyword coverage receives 70% and similarity receives 30%.</p>
+        </section>
+        <section class="panel p-4 mt-4">
+          <h3>Privacy, explained</h3>
+          <p class="small muted">Original files are processed in memory and discarded. Extracted resume text, the job description, and results are stored in SQLite for your history.</p>
+          <p class="small muted">You and authorized administrators can access these records. Deleting an analysis removes its stored text and result.</p>
+          <a href="https://github.com/AliAdilQ/Resume_Keyword_Analyzer"
+             class="text-link"
+             target="_blank"
+             rel="noopener">View the source <i class="bi bi-arrow-up-right"></i></a>
+        </section>
+      </div>
+    </div>
+    <section class="panel p-4 mt-4"><h2>Practical technology, end to end</h2><div class="badge-list mt-3">{% for name in ['Python', 'Flask', 'SQLAlchemy', 'Flask-Login', 'Flask-WTF', 'Werkzeug', 'SQLite', 'spaCy', 'NLTK', 'scikit-learn', 'Bootstrap 5', 'Bootstrap Icons', 'Chart.js'] %}<span class="keyword-badge neutral">{{ name }}</span>{% endfor %}</div></section></div>
+{% endblock %}

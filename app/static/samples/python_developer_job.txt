@@ -1,0 +1,17 @@
+Python Developer — TechNova (fictional company)
+
+We are looking for a Python developer to build reliable backend services and
+REST APIs. You will develop and maintain Flask applications, integrate SQL
+and PostgreSQL databases, improve application performance, and troubleshoot
+production services.
+
+Responsibilities
+- Design readable, maintainable Python code for backend services.
+- Write automated testing, review code, and collaborate on documentation.
+- Use Git and GitHub for version control and technical collaboration.
+- Profile database queries and improve performance and reliability.
+- Package applications with Docker and deploy services to AWS.
+
+Required skills: Python, Flask, SQL, PostgreSQL, REST API, Testing, Git,
+GitHub, Linux, Docker, and AWS. We value practical problem solving and
+clear technical documentation.

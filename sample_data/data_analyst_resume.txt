@@ -1,0 +1,20 @@
+Casey Rowan — Data Analyst (fictional)
+casey.rowan@example.com
+
+Data analyst turning business datasets into clear insights. Used SQL to query
+databases, Python and Pandas for data analysis, and Excel for reporting.
+Created dashboards with Power BI, validated data quality, and communicated
+findings to stakeholders.
+
+SKILLS
+SQL, Python, Pandas, Excel, Data Analysis, Power BI, Git
+
+EXPERIENCE
+- Built business reporting and dashboards for trend exploration.
+- Improved data cleaning and documentation to reduce reporting time by 25%.
+- Explained business performance using meaningful metrics and readable
+  visualizations, supported dashboard design, and communicated clear findings.
+- Used Git to version reporting scripts and document reproducible workflows.
+
+EDUCATION
+Business Analytics — Example Institute (fictional)

@@ -1,0 +1,32 @@
+Jordan Avery
+Python Developer | jordan.avery@example.com | Fictional portfolio resume
+
+PROFILE
+Python developer building reliable backend services and REST APIs. Experienced
+in Flask, SQL, PostgreSQL, Git, and automated testing. Focused on readable code,
+application performance, collaboration, and practical problem solving.
+
+SKILLS
+Python, Flask, SQL, PostgreSQL, Git, GitHub, Linux, REST API, Testing, Docker
+
+EXPERIENCE
+Backend Developer — Example Studio (fictional), 2023–2026
+- Develop and maintain Python backend services using Flask and PostgreSQL.
+- Designed REST APIs, integrated databases, and improved application performance.
+- Wrote automated testing and reviewed code for reliability and maintainability.
+- Used Git for version control and collaborated on technical documentation.
+- Reduced database query time by 35% and supported 2,000 users.
+- Worked with cross-functional colleagues to troubleshoot services and deliver
+  reliable software, clear documentation, and maintainable code.
+
+PROJECTS
+Inventory Service: built a Flask REST API with SQL persistence, request
+validation, testing, and documentation. Package applications with Docker and
+deploy services on Linux. Profile database queries and improve performance.
+Workflow Dashboard: created Python services for internal reporting, using
+PostgreSQL databases, GitHub reviews, and a Linux development environment.
+
+EDUCATION
+BSc in Computer Science — Example Institute (fictional), 2023
+
+All names, organizations, and details in this document are fictional.

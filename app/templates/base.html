@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+          content="Compare your resume with a job description using transparent keyword analysis, skill matching, and TF-IDF similarity.">
+    <meta name="theme-color" content="#171d35">
+    <title>{% block title %}Resume Keyword Analyzer{% endblock %} · Resume Keyword Analyzer</title>
+    <link rel="icon"
+          type="image/svg+xml"
+          href="{{ url_for('static', filename='images/logo.svg') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='vendor/bootstrap/bootstrap.min.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.min.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='vendor/bootstrap/bootstrap.bundle.min.js') }}"
+            defer></script>
+    <script src="{{ url_for('static', filename='vendor/chartjs/chart.umd.min.js') }}"
+            defer></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+  </head>
+  <body class="{% block body_class %}{% if current_user.is_authenticated %}workspace-body{% endif %}{% endblock %}">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <nav class="navbar navbar-expand-lg main-nav">
+      <div class="container-fluid nav-container">
+        <a class="navbar-brand brand" href="{{ url_for('main.index') }}">
+        <img src="{{ url_for('static', filename='images/logo.svg') }}"
+             alt=""
+             width="38"
+             height="38"><span>Resume<span class="brand-accent">Lens</span><small>KEYWORD ANALYZER</small></span></a>
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#main-nav"
+                aria-controls="main-nav"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+          <i class="bi bi-list"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="main-nav">
+          <div class="navbar-nav mx-auto">
+            {% if current_user.is_authenticated %}
+              <a class="nav-link {{ 'active' if request.endpoint == 'main.dashboard' }}"
+                 href="{{ url_for('main.dashboard') }}">Dashboard</a>
+              <a class="nav-link {{ 'active' if request.endpoint == 'main.analyze' }}"
+                 href="{{ url_for('main.analyze') }}">Analyzer</a>
+              <a class="nav-link {{ 'active' if request.endpoint == 'main.history' }}"
+                 href="{{ url_for('main.history') }}">History</a>
+              {% if current_user.is_admin %}<a class="nav-link {{ 'active' if request.blueprint == 'admin' }}"
+   href="{{ url_for('admin.dashboard') }}">Admin panel <span class="admin-label">ADMIN</span></a>{% endif %}
+            {% else %}
+              <a class="nav-link {{ 'active' if request.endpoint == 'main.index' }}"
+                 href="{{ url_for('main.index') }}">Home</a>
+              <a class="nav-link" href="{{ url_for('main.index') }}#features">Features</a>
+              <a class="nav-link" href="{{ url_for('main.index') }}#how-it-works">How it works</a>
+              <a class="nav-link {{ 'active' if request.endpoint == 'main.about' }}"
+                 href="{{ url_for('main.about') }}">About</a>
+            {% endif %}
+          </div>
+          <div class="nav-end">
+          {% if current_user.is_authenticated %}<div class="user-chip"><span class="avatar">{{ current_user.username[0]|upper }}</span><span>{{ current_user.username }}</span></div><form method="post" action="{{ url_for('auth.logout') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="icon-button" title="Sign out" aria-label="Sign out"><i class="bi bi-box-arrow-right"></i></button></form>
+        {% else %}<a class="btn btn-text" href="{{ url_for('auth.login') }}">Sign in</a><a class="btn btn-primary btn-sm" href="{{ url_for('auth.register') }}">Get started <i class="bi bi-arrow-up-right"></i></a>{% endif %}
+      </div>
+    </div>
+  </div>
+</nav>
+{% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<div class="container flash-container" aria-live="polite">{% for category, message in messages %}<div class="alert alert-{{ category }} alert-dismissible fade show"
+     role="alert"><i class="bi bi-{{ 'check-circle' if category == 'success' else 'info-circle' }}"></i> {{ message }}<button type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Dismiss"></button></div>{% endfor %}</div>{% endif %}{% endwith %}
+<main id="main-content">
+  {% block content %}{% endblock %}
+</main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div>
+      <a class="footer-brand" href="{{ url_for('main.index') }}">ResumeLens<span> / Resume Keyword Analyzer</span></a>
+      <p>Built for your next opportunity.</p>
+    </div>
+    <div class="footer-links"><a href="{{ url_for('main.about') }}">About the project</a><a href="https://github.com/AliAdilQ/Resume_Keyword_Analyzer"
+   target="_blank"
+   rel="noopener"><i class="bi bi-github"></i> Source code</a><span>© {{ current_year }} AliAdilQ</span></div>
+  </div>
+</footer>
+{% block scripts %}{% endblock %}
+</body>
+</html>
